@@ -1,0 +1,346 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>商品列表</title>
+
+  <!-- Vendor Stylesheets -->
+  <link rel="stylesheet" href="front/assets/css/plugins/bootstrap.min.css">
+  <link rel="stylesheet" href="front/assets/css/plugins/animate.min.css">
+  <link rel="stylesheet" href="front/assets/css/plugins/magnific-popup.css">
+  <link rel="stylesheet" href="front/assets/css/plugins/slick.css">
+  <link rel="stylesheet" href="front/assets/css/plugins/slick-theme.css">
+  <link rel="stylesheet" href="front/assets/css/plugins/ion.rangeSlider.min.css">
+
+  <!-- Icon Fonts -->
+  <link rel="stylesheet" href="front/assets/fonts/flaticon/flaticon.css">
+  <link rel="stylesheet" href="front/assets/fonts/font-awesome/css/all.min.css">
+
+  <!-- Coffeez Style sheet -->
+  <link rel="stylesheet" href="front/assets/css/style.css">
+  <link rel="stylesheet" href="common/css/xtiper.css">
+  <link rel="stylesheet" href="common/css/sweetalert.css">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.ico">
+
+</head>
+
+<body>
+
+  <div th:replace="common/front-common::#front1"></div>
+  <div th:replace="common/front-common::#androNewsletterPopup"></div>
+  <div th:replace="common/front-common::#front4"></div>
+  <div th:replace="common/front-common::#front5"></div>
+  <div th:replace="common/front-common::#front6"></div>
+  <div th:replace="common/front-common::#front7"></div>
+  <div th:replace="common/front-common::#front8"></div>
+
+  <!-- Products Start -->
+  <div class="section">
+    <div class="container">
+
+      <!-- Quick View Modal Start -->
+      <div th:each="commodity:${commodities}" class="modal fade andro_quick-view-modal" th:id="${'quickViewModal'+commodity.id}" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+
+              <div class="close-btn close-dark close" data-dismiss="modal">
+                <span></span>
+                <span></span>
+              </div>
+
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-md-5">
+                    <img th:src="${commodity.img}" alt="product">
+                  </div>
+                  <div class="col-md-7">
+
+                    <div class="andro_product-single-content">
+
+                      <div class="andro_rating-wrapper">
+                        <div class="andro_rating" th:if="${commodity.stars == 1}">
+                          <i class="fa fa-star active"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                        </div>
+                        <div class="andro_rating" th:if="${commodity.stars == 2}">
+                          <i class="fa fa-star active"></i>
+                          <i class="fa fa-star active"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                        </div>
+                        <div class="andro_rating" th:if="${commodity.stars == 3}">
+                          <i class="fa fa-star active"></i>
+                          <i class="fa fa-star active"></i>
+                          <i class="fa fa-star active"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                        </div>
+                        <div class="andro_rating" th:if="${commodity.stars == 4}">
+                          <i class="fa fa-star active"></i>
+                          <i class="fa fa-star active"></i>
+                          <i class="fa fa-star active"></i>
+                          <i class="fa fa-star active"></i>
+                          <i class="fa fa-star"></i>
+                        </div>
+                        <div class="andro_rating" th:if="${commodity.stars == 5}">
+                          <i class="fa fa-star active"></i>
+                          <i class="fa fa-star active"></i>
+                          <i class="fa fa-star active"></i>
+                          <i class="fa fa-star active"></i>
+                          <i class="fa fa-star active"></i>
+                        </div>
+                        <div class="andro_rating" th:if="${commodity.stars == null}">
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                        </div>
+
+                        <span th:if="${commodity.stars != null}" th:text="${commodity.stars +' Stars'}"></span>
+                        <span th:if="${commodity.stars == null}">暂无评星</span>
+                      </div>
+
+                      <h4 th:text="${commodity.name +'-'+commodity.classify}"></h4>
+
+                      <br>
+                      <div class="andro_product-price">
+                        <span th:text="${'¥'+commodity.nowPrice}"></span>
+                        <span th:text="${'¥'+commodity.originalPrice}"></span>
+                      </div>
+
+                      <p class="andro_product-excerpt" th:text="${commodity.info}"></p>
+                      <p class="andro_product-excerpt" th:text="${commodity.description}"></p>
+
+                      <form class="andro_product-atc-form">
+
+                        <div class="qty-outter">
+                          <a th:href="@{product(id=${commodity.id})}" class="andro_btn-custom">查看详情</a>
+                        </div>
+
+                      </form>
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Quick View Modal End -->
+
+
+      <!-- Product Count & Orderby Start -->
+      <div class="andro_shop-global">
+        <p>共查询到商品 <b th:text="${commodities.size()}"></b> 件
+        </p>
+        <form method="post">
+          <select class="form-control" id="classifyId" onchange="searchByClassifyId()">
+            <option th:if="${classifyId != null and classify.id == classifyId}" th:value="${classify.id}" th:text="${classify.name}" th:each="classify:${classifies}"></option>
+            <option value="all">全部结果</option>
+            <option th:if="${classifyId != null and classify.id != classifyId}" th:value="${classify.id}" th:text="${classify.name}" th:each="classify:${classifies}"></option>
+            <option th:if="${classifyId == null}" th:value="${classify.id}" th:text="${classify.name}" th:each="classify:${classifies}"></option>
+          </select>
+        </form>
+      </div>
+      <!-- Product Count & Orderby End -->
+
+      <div class="row">
+
+        <!-- Product Start -->
+        <div class="col-md-4 col-sm-6" th:each="commodity:${commodities}">
+          <div class="andro_product andro_product-has-controls"  th:if="${commodity.discount <= 8}">
+            <div class="andro_product-badge andro_badge-sale"  th:text="${commodity.discount + ' 折优惠'}">
+            </div>
+            <div class="andro_product-thumb">
+              <a th:href="@{product(id=${commodity.id})}"><img th:src="${commodity.img}" alt="product"></a>
+            </div>
+            <div class="andro_product-body">
+              <h5 class="andro_product-title"> <a th:href="@{product(id=${commodity.id})}" th:text="${commodity.name + '-' + commodity.classify}"></a> </h5>
+              <div class="andro_product-price">
+                <span th:text="${'¥'+commodity.nowPrice}"></span>
+                <span th:text="${'¥'+commodity.originalPrice}"></span>
+              </div>
+              <p th:text="${commodity.info}"></p>
+              <div class="andro_rating-wrapper">
+                <div class="andro_rating" th:if="${commodity.stars == 1}">
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                </div>
+                <div class="andro_rating" th:if="${commodity.stars == 2}">
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                </div>
+                <div class="andro_rating" th:if="${commodity.stars == 3}">
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                </div>
+                <div class="andro_rating" th:if="${commodity.stars == 4}">
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star"></i>
+                </div>
+                <div class="andro_rating" th:if="${commodity.stars == 5}">
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star active"></i>
+                </div>
+                <div class="andro_rating" th:if="${commodity.stars == null}">
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                </div>
+
+                <span th:if="${commodity.stars != null}" th:text="${commodity.stars +' Stars'}"></span>
+                <span th:if="${commodity.stars == null}">暂无评星</span>
+              </div>
+            </div>
+            <div class="andro_product-footer">
+              <div class="andro_product-controls">
+                <a th:if="${session.loginUser != null}" href="javaScript:void(0)" th:onclick="addCart([[${commodity.id}]],1)"> <i data-toggle="tooltip" title="加入购物车" data-placement="top" class="flaticon-shopping-basket"></i></a>
+                <a href="#" data-toggle="modal" th:data-target="${'#quickViewModal'+commodity.id}"> <i data-toggle="tooltip" title="快速查看" data-placement="top" class="flaticon-view"></i></a>
+                <a th:if="${commodity.addTime == null and session.loginUser != null}" th:onclick="doCollect([[${commodity.id}]])" href="javascript:void (0)" class="favorite"> <i data-toggle="tooltip" title="收藏" data-placement="top" class="flaticon-like"></i></a>
+                <a th:if="${commodity.addTime != null and session.loginUser != null}" th:onclick="undoCollect([[${commodity.id}]])" href="javascript:void (0)" class="favorite"> <i data-toggle="tooltip" title="取消收藏" data-placement="top" class="flaticon-like-1"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="andro_product andro_product-has-controls"  th:if="${commodity.discount > 8}">
+            <div class="andro_product-badge andro_badge-featured">
+              <i class="fa fa-star"></i>
+              <span>特色</span>
+            </div>
+            <div class="andro_product-thumb">
+              <a th:href="@{product(id=${commodity.id})}"><img th:src="${commodity.img}" alt="product"></a>
+            </div>
+            <div class="andro_product-body">
+              <h5 class="andro_product-title"> <a th:href="@{product(id=${commodity.id})}" th:text="${commodity.name + '-' + commodity.classify}"></a> </h5>
+              <div class="andro_product-price">
+                <span th:text="${'¥'+commodity.nowPrice}"></span>
+                <span th:text="${'¥'+commodity.originalPrice}"></span>
+              </div>
+              <p th:text="${commodity.info}"></p>
+              <div class="andro_rating-wrapper">
+                <div class="andro_rating" th:if="${commodity.stars == 1}">
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                </div>
+                <div class="andro_rating" th:if="${commodity.stars == 2}">
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                </div>
+                <div class="andro_rating" th:if="${commodity.stars == 3}">
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                </div>
+                <div class="andro_rating" th:if="${commodity.stars == 4}">
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star"></i>
+                </div>
+                <div class="andro_rating" th:if="${commodity.stars == 5}">
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star active"></i>
+                  <i class="fa fa-star active"></i>
+                </div>
+                <div class="andro_rating" th:if="${commodity.stars == null}">
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                </div>
+
+                <span th:if="${commodity.stars != null}" th:text="${commodity.stars +' Stars'}"></span>
+                <span th:if="${commodity.stars == null}">暂无评星</span>
+              </div>
+            </div>
+            <div class="andro_product-footer">
+              <div class="andro_product-controls">
+                <a th:if="${session.loginUser != null}" href="javaScript:void(0)" th:onclick="addCart([[${commodity.id}]],1)"> <i data-toggle="tooltip" title="加入购物车" data-placement="top" class="flaticon-shopping-basket"></i></a>
+                <a href="#" data-toggle="modal" th:data-target="${'#quickViewModal'+commodity.id}"> <i data-toggle="tooltip" title="快速查询" data-placement="top" class="flaticon-view"></i></a>
+                <a th:if="${commodity.addTime == null and session.loginUser != null}" th:onclick="doCollect([[${commodity.id}]])" href="javascript:void (0)" class="favorite"> <i data-toggle="tooltip" title="收藏" data-placement="top" class="flaticon-like"></i></a>
+                <a th:if="${commodity.addTime != null and session.loginUser != null}" th:onclick="undoCollect([[${commodity.id}]])" href="javascript:void (0)" class="favorite"> <i data-toggle="tooltip" title="取消收藏" data-placement="top" class="flaticon-like-1"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Product End -->
+      </div>
+    </div>
+  </div>
+  <!-- Products End -->
+
+  <!-- Instagram Start -->
+  <div th:replace="common/front-common::#instagram"></div>
+  <!-- Instagram End -->
+
+  <!-- Footer Start -->
+  <div th:replace="common/front-common::#footer"></div>
+  <!-- Footer End -->
+
+  <!-- Vendor Scripts -->
+  <script src="front/assets/js/plugins/jquery-3.4.1.min.js"></script>
+  <script src="front/assets/js/plugins/popper.min.js"></script>
+  <script src="front/assets/js/plugins/waypoint.js"></script>
+  <script src="front/assets/js/plugins/bootstrap.min.js"></script>
+  <script src="front/assets/js/plugins/jquery.magnific-popup.min.js"></script>
+  <script src="front/assets/js/plugins/jquery.slimScroll.min.js"></script>
+  <script src="front/assets/js/plugins/imagesloaded.min.js"></script>
+  <script src="front/assets/js/plugins/jquery.steps.min.js"></script>
+  <script src="front/assets/js/plugins/jquery.countdown.min.js"></script>
+  <script src="front/assets/js/plugins/isotope.pkgd.min.js"></script>
+  <script src="front/assets/js/plugins/slick.min.js"></script>
+  <script src="front/assets/js/plugins/ion.rangeSlider.min.js"></script>
+  <script src="front/assets/js/plugins/jquery.zoom.min.js"></script>
+
+
+  <!-- Coffeez Scripts -->
+  <script src="front/assets/js/main.js"></script>
+  <script src="common/js/xtiper.min.js"></script>
+  <script src="common/js/sweetalert.js"></script>
+  <script src="common/js/custom.js"></script>
+
+</body>
+
+</html>

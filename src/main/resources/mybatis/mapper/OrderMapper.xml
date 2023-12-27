@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="world.xuewei.mapper.OrderMapper">
+
+    <!--order的映射结果集-->
+    <resultMap type="world.xuewei.entity.Order" id="OrderMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="orderNumber" column="order_number" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="commodityId" column="commodity_id" jdbcType="INTEGER"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="courierNumber" column="courier_number" jdbcType="VARCHAR"/>
+        <result property="courierName" column="courier_name" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="payTime" column="pay_time" jdbcType="TIMESTAMP"/>
+        <result property="sippingTime" column="sipping_time" jdbcType="TIMESTAMP"/>
+        <result property="successTime" column="success_time" jdbcType="TIMESTAMP"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--全部字段-->
+    <sql id="allColumn"> id, order_number, user_id, commodity_id, address_id, content, courier_number, courier_name, create_time, pay_time, sipping_time, success_time, status </sql>
+
+    <!--添加语句的字段列表-->
+    <sql id="insertColumn">
+        <if test="orderNumber != null and orderNumber != ''">
+            order_number,
+        </if>
+        <if test="userId != null">
+            user_id,
+        </if>
+        <if test="commodityId != null">
+            commodity_id,
+        </if>
+        <if test="addressId != null">
+            address_id,
+        </if>
+        <if test="content != null and content != ''">
+            content,
+        </if>
+        <if test="courierNumber != null and courierNumber != ''">
+            courier_number,
+        </if>
+        <if test="courierName != null and courierName != ''">
+            courier_name,
+        </if>
+        <if test="createTime != null">
+            create_time,
+        </if>
+        <if test="payTime != null">
+            pay_time,
+        </if>
+        <if test="sippingTime != null">
+            sipping_time,
+        </if>
+        <if test="successTime != null">
+            success_time,
+        </if>
+        <if test="status != null">
+            status,
+        </if>
+    </sql>
+
+    <!--添加语句的值列表-->
+    <sql id="insertValue">
+        <if test="orderNumber != null and orderNumber != ''">
+            #{orderNumber},
+        </if>
+        <if test="userId != null">
+            #{userId},
+        </if>
+        <if test="commodityId != null">
+            #{commodityId},
+        </if>
+        <if test="addressId != null">
+            #{addressId},
+        </if>
+        <if test="content != null and content != ''">
+            #{content},
+        </if>
+        <if test="courierNumber != null and courierNumber != ''">
+            #{courierNumber},
+        </if>
+        <if test="courierName != null and courierName != ''">
+            #{courierName},
+        </if>
+        <if test="createTime != null">
+            #{createTime},
+        </if>
+        <if test="payTime != null">
+            #{payTime},
+        </if>
+        <if test="sippingTime != null">
+            #{sippingTime},
+        </if>
+        <if test="successTime != null">
+            #{successTime},
+        </if>
+        <if test="status != null">
+            #{status},
+        </if>
+    </sql>
+
+    <!--通用对Order各个属性的值的非空判断，Insert、Update使用-->
+    <sql id="commonsValue">
+        <if test="orderNumber != null and orderNumber != ''">
+            order_number = #{orderNumber},
+        </if>
+        <if test="userId != null">
+            user_id = #{userId},
+        </if>
+        <if test="commodityId != null">
+            commodity_id = #{commodityId},
+        </if>
+        <if test="addressId != null">
+            address_id = #{addressId},
+        </if>
+        <if test="content != null and content != ''">
+            content = #{content},
+        </if>
+        <if test="courierNumber != null and courierNumber != ''">
+            courier_number = #{courierNumber},
+        </if>
+        <if test="courierName != null and courierName != ''">
+            courier_name = #{courierName},
+        </if>
+        <if test="createTime != null">
+            create_time = #{createTime},
+        </if>
+        <if test="payTime != null">
+            pay_time = #{payTime},
+        </if>
+        <if test="sippingTime != null">
+            sipping_time = #{sippingTime},
+        </if>
+        <if test="successTime != null">
+            success_time = #{successTime},
+        </if>
+        <if test="status != null">
+            status = #{status},
+        </if>
+    </sql>
+
+    <!--通用对Order各个属性的值的非空判断,Where查询使用-->
+    <sql id="commonsQuery">
+        <if test="orderNumber != null and orderNumber != ''">
+            and order_number = #{orderNumber}
+        </if>
+        <if test="userId != null">
+            and user_id = #{userId}
+        </if>
+        <if test="commodityId != null">
+            and commodity_id = #{commodityId}
+        </if>
+        <if test="addressId != null">
+            and address_id = #{addressId},
+        </if>
+        <if test="content != null and content != ''">
+            and content = #{content}
+        </if>
+        <if test="courierNumber != null and courierNumber != ''">
+            and courier_number = #{courierNumber}
+        </if>
+        <if test="courierName != null and courierName != ''">
+            and courier_name = #{courierName}
+        </if>
+        <if test="createTime != null">
+            and create_time = #{createTime}
+        </if>
+        <if test="payTime != null">
+            and pay_time = #{payTime}
+        </if>
+        <if test="sippingTime != null">
+            and sipping_time = #{sippingTime}
+        </if>
+        <if test="successTime != null">
+            and success_time = #{successTime}
+        </if>
+        <if test="status != null">
+            and status = #{status}
+        </if>
+    </sql>
+
+    <!--新增order:哪个字段不为空就添加哪列数据,返回自增主键-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into `order`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <include refid="insertColumn"/>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <include refid="insertValue"/>
+        </trim>
+    </insert>
+
+    <!--删除order:通过主键-->
+    <delete id="deleteById">
+        delete from `order`
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+
+    <!--查询单个order-->
+    <select id="getById" resultMap="OrderMap">
+        select
+        <include refid="allColumn"></include>
+        from `order`
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="listOrders" resultMap="OrderMap">
+        select
+        <include refid="allColumn"></include>
+        from `order`
+        <trim prefix="where" prefixOverrides="and" suffixOverrides=",">
+            <include refid="commonsQuery"></include>
+        </trim>
+    </select>
+
+    <!--通过实体作为筛选条件获取结果数量-->
+    <select id="countOrders" resultType="java.lang.Integer">
+        select
+        count(*)
+        from `order`
+        <trim prefix="where" prefixOverrides="and" suffixOverrides=",">
+            <include refid="commonsQuery"></include>
+        </trim>
+    </select>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update `order`
+        <set>
+            <include refid="commonsValue"></include>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+</mapper>

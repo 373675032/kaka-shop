@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="world.xuewei.mapper.UserMapper">
+
+    <!--user的映射结果集-->
+    <resultMap type="world.xuewei.entity.User" id="UserMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="img" column="img" jdbcType="VARCHAR"/>
+        <result property="info" column="info" jdbcType="VARCHAR"/>
+        <result property="registerTime" column="register_time" jdbcType="TIMESTAMP"/>
+        <result property="role" column="role" jdbcType="INTEGER"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--全部字段-->
+    <sql id="allColumn"> id, name, password, email, img, info, register_time, role, update_time </sql>
+
+    <!--添加语句的字段列表-->
+    <sql id="insertColumn">
+        <if test="name != null and name != ''">
+            name,
+        </if>
+        <if test="password != null and password != ''">
+            password,
+        </if>
+        <if test="email != null and email != ''">
+            email,
+        </if>
+        <if test="img != null and img != ''">
+            img,
+        </if>
+        <if test="info != null and info != ''">
+            info,
+        </if>
+        <if test="registerTime != null">
+            register_time,
+        </if>
+        <if test="role != null">
+            role,
+        </if>
+        <if test="updateTime != null">
+            update_time,
+        </if>
+    </sql>
+
+    <!--添加语句的值列表-->
+    <sql id="insertValue">
+        <if test="name != null and name != ''">
+            #{name},
+        </if>
+        <if test="password != null and password != ''">
+            #{password},
+        </if>
+        <if test="email != null and email != ''">
+            #{email},
+        </if>
+        <if test="img != null and img != ''">
+            #{img},
+        </if>
+        <if test="info != null and info != ''">
+            #{info},
+        </if>
+        <if test="registerTime != null">
+            #{registerTime},
+        </if>
+        <if test="role != null">
+            #{role},
+        </if>
+        <if test="updateTime != null">
+            #{updateTime},
+        </if>
+    </sql>
+
+    <!--通用对User各个属性的值的非空判断，Insert、Update使用-->
+    <sql id="commonsValue">
+        <if test="name != null and name != ''">
+            name = #{name},
+        </if>
+        <if test="password != null and password != ''">
+            password = #{password},
+        </if>
+        <if test="email != null and email != ''">
+            email = #{email},
+        </if>
+        <if test="img != null and img != ''">
+            img = #{img},
+        </if>
+        <if test="info != null and info != ''">
+            info = #{info},
+        </if>
+        <if test="registerTime != null">
+            register_time = #{registerTime},
+        </if>
+        <if test="role != null">
+            role = #{role},
+        </if>
+        <if test="updateTime != null">
+            update_time = #{updateTime},
+        </if>
+    </sql>
+
+    <!--通用对User各个属性的值的非空判断,Where查询使用-->
+    <sql id="commonsQuery">
+        <if test="name != null and name != ''">
+            and name = #{name}
+        </if>
+        <if test="password != null and password != ''">
+            and password = #{password}
+        </if>
+        <if test="email != null and email != ''">
+            and email = #{email}
+        </if>
+        <if test="img != null and img != ''">
+            and img = #{img}
+        </if>
+        <if test="info != null and info != ''">
+            and info = #{info}
+        </if>
+        <if test="registerTime != null">
+            and register_time = #{registerTime}
+        </if>
+        <if test="role != null">
+            and role = #{role}
+        </if>
+        <if test="updateTime != null">
+            and update_time = #{updateTime}
+        </if>
+    </sql>
+
+    <!--新增user:哪个字段不为空就添加哪列数据,返回自增主键-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <include refid="insertColumn"/>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <include refid="insertValue"/>
+        </trim>
+    </insert>
+
+    <!--删除user:通过主键-->
+    <delete id="deleteById">
+        delete from user
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+
+    <!--查询单个user-->
+    <select id="getById" resultMap="UserMap">
+        select
+        <include refid="allColumn"></include>
+        from user
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="listUsers" resultMap="UserMap">
+        select
+        <include refid="allColumn"></include>
+        from user
+        <trim prefix="where" prefixOverrides="and" suffixOverrides=",">
+            <include refid="commonsQuery"></include>
+        </trim>
+    </select>
+
+    <!--通过实体作为筛选条件获取结果数量-->
+    <select id="countUsers" resultType="java.lang.Integer">
+        select
+        count(*)
+        from user
+        <trim prefix="where" prefixOverrides="and" suffixOverrides=",">
+            <include refid="commonsQuery"></include>
+        </trim>
+    </select>
+
+    <!--通过邮箱查询用户-->
+    <select id="getByEmail" resultType="world.xuewei.entity.User">
+        select
+        <include refid="allColumn"></include>
+        from user
+        <where>
+            email = #{email}
+        </where>
+    </select>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update user
+        <set>
+            <include refid="commonsValue"></include>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+</mapper>

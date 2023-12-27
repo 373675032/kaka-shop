@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
+          name="viewport">
+    <title>发布新品</title>
+    <!-- Favicon and Touch Icons -->
+    <link href="common/favicon.png" rel="shortcut icon" type="image/png">
+    <link rel="stylesheet" href="background/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="background/modules/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="background/modules/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css">
+
+    <link rel="stylesheet" href="background/modules/summernote/summernote-lite.css">
+    <link rel="stylesheet" href="background/modules/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="background/css/style.css">
+    <link rel="stylesheet" href="common/css/xtiper.css">
+    <link rel="stylesheet" href="common/css/sweetalert.css">
+</head>
+
+<body>
+<div id="app">
+    <div class="main-wrapper">
+        <div class="navbar-bg"></div>
+        <div th:replace="common/background-common::navbar(currUri='new-goods')"></div>
+        <div th:replace="common/background-common::sidebar(currUri='new-goods')"></div>
+
+        <div class="main-content">
+            <section class="section">
+                <h1 class="section-header">
+                    <div>发布商品 <i class="ion ion-coffee"></i></div>
+                    <div class="float-right">
+                        <button class="btn btn-success btn-sm" onclick="publishNewGoods()"><i class="ion ion-checkmark-round"></i> 发布</button>
+                    </div>
+                </h1>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="col-12 form-group">
+                                    <label for="name">
+                                        商品名称
+                                    </label>
+                                    <input id="name" type="text" style="margin-bottom: 10px" class="form-control" autocomplete="off" placeholder="填写商品的名称...">
+                                </div>
+                                <div class="col-12 form-group">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <label for="color">
+                                                颜色
+                                            </label>
+                                            <input id="color" type="text" style="margin-bottom: 10px" class="form-control" autocomplete="off">
+                                        </div>
+                                        <div class="col-3">
+                                            <label for="material">
+                                                原材料
+                                            </label>
+                                            <input id="material" type="text" style="margin-bottom: 10px" class="form-control" autocomplete="off">
+                                        </div>
+                                        <div class="col-3">
+                                            <label for="origin">
+                                                产地
+                                            </label>
+                                            <input id="origin" type="text" style="margin-bottom: 10px" class="form-control" autocomplete="off">
+                                        </div>
+                                        <div class="col-3">
+                                            <label for="classify">
+                                                分类
+                                            </label>
+                                            <select id="classify" class="form-control">
+                                                <option th:each="classify:${classifies}" th:value="${classify.id}" th:text="${classify.name}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 form-group">
+                                    <label for="info">
+                                        商品简介
+                                    </label>
+                                    <textarea id="info" class="form-control" placeholder="填写商品简介..." style="height: 100px"></textarea>
+                                </div>
+                                <div class="col-12 form-group">
+                                    <label for="description">
+                                        商品描述
+                                    </label>
+                                    <textarea id="description" class="form-control" placeholder="填写商品描述..." style="height: 150px"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="col-12 form-group">
+                                    <label>
+                                        商品图片
+                                    </label>
+                                    <div class="form-group">
+                                        <a href="javascript:$('#img_file').click()">
+                                            <img id="img" src="background/img/upload.png" style="width: 100%;border: 1px solid #e1e1e1;" alt="">
+                                        </a>
+                                    </div>
+                                    <input style="display: none" type="file" id="img_file" onchange="uploadGoodsImg()">
+                                    <input type="hidden" id="img_path">
+                                </div>
+                                <div class="row col-12 form-group">
+                                    <div class="col-6">
+                                        <label for="original_price">
+                                            原价（单位：元）
+                                        </label>
+                                        <input id="original_price" type="number" style="margin-bottom: 10px" class="form-control" autocomplete="off" placeholder="0">
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="now_price">
+                                            现价（单位：元）
+                                        </label>
+                                        <input id="now_price" type="number" style="margin-bottom: 10px" class="form-control" autocomplete="off" placeholder="0">
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="inventory">
+                                            库存
+                                        </label>
+                                        <input id="inventory" type="number" style="margin-bottom: 10px" class="form-control" autocomplete="off" placeholder="0">
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="status">
+                                            状态
+                                        </label>
+                                        <select id="status" class="form-control">
+                                            <option value="1">上架</option>
+                                            <option value="0">下架</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div th:replace="common/background-common::footer"></div>
+    </div>
+</div>
+
+<script src="background/modules/jquery.min.js"></script>
+<script src="common/js/xtiper.min.js"></script>
+<script src="common/js/sweetalert.js"></script>
+<script src="common/js/custom.js"></script>
+<script src="background/modules/popper.js"></script>
+<script src="background/modules/tooltip.js"></script>
+<script src="background/modules/bootstrap/js/bootstrap.min.js"></script>
+<script src="background/modules/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="background/modules/scroll-up-bar/dist/scroll-up-bar.min.js"></script>
+<script src="background/js/sa-functions.js"></script>
+
+<script src="background/modules/chart.min.js"></script>
+<script src="background/modules/summernote/summernote-lite.js"></script>
+
+<script src="background/js/scripts.js"></script>
+</body>
+</html>

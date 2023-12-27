@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>用户登陆</title>
+
+    <!-- Vendor Stylesheets -->
+    <link href="front/assets/css/plugins/bootstrap.min.css" rel="stylesheet">
+    <link href="front/assets/css/plugins/animate.min.css" rel="stylesheet">
+    <link href="front/assets/css/plugins/magnific-popup.css" rel="stylesheet">
+    <link href="front/assets/css/plugins/slick.css" rel="stylesheet">
+    <link href="front/assets/css/plugins/slick-theme.css" rel="stylesheet">
+    <link href="front/assets/css/plugins/ion.rangeSlider.min.css" rel="stylesheet">
+
+    <!-- Icon Fonts -->
+    <link href="front/assets/fonts/flaticon/flaticon.css" rel="stylesheet">
+    <link href="front/assets/fonts/font-awesome/css/all.min.css" rel="stylesheet">
+
+    <!-- Coffeez Style sheet -->
+    <link href="front/assets/css/style.css" rel="stylesheet">
+    <link href="common/css/xtiper.css" rel="stylesheet">
+    <link href="common/css/sweetalert.css" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link href="favicon.ico" rel="icon" sizes="32x32" type="image/png">
+
+</head>
+
+<body>
+
+<div th:replace="common/front-common::#front1"></div>
+<div th:replace="common/front-common::#androNewsletterPopup"></div>
+<div th:replace="common/front-common::#front4"></div>
+<div th:replace="common/front-common::#front5"></div>
+<div th:replace="common/front-common::#front6"></div>
+<div th:replace="common/front-common::#front7"></div>
+<div th:replace="common/front-common::#front8"></div>
+
+<div class="section">
+    <div class="imgs-wrapper">
+        <img alt="veg" class="d-none d-lg-block" src="front/assets/img/products/1.png">
+        <img alt="veg" class="d-none d-lg-block" src="front/assets/img/products/14.png">
+    </div>
+    <div class="container">
+        <div class="andro_auth-wrapper">
+
+            <div class="andro_auth-description bg-cover bg-center dark-overlay dark-overlay-2"
+                 style="background-image: url('front/assets/img/auth.jpg')">
+                <div class="andro_auth-description-inner">
+                    <i class="flaticon-coffee-cup"></i>
+                    <h2>欢迎回来！</h2>
+                    <p>一口咖啡，一份真诚；异世相遇，尽享美味。</p>
+                </div>
+            </div>
+            <div class="andro_auth-form">
+
+                <h2>登陆</h2>
+
+                <div class="form-group">
+                    <input class="form-control" id="email" placeholder="邮箱" type="text" value="">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" id="password" placeholder="密码" type="password" value="">
+                </div>
+                <a href="forget.html">忘记密码？</a>
+                <button class="andro_btn-custom primary" onclick="login()">登陆</button>
+
+                <div class="andro_auth-seperator">
+                    <span>OR</span>
+                </div>
+
+                <p>还没有登陆账号？ <a href="register.html">立即创建</a></p>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Instagram Start -->
+<div th:replace="common/front-common::#instagram"></div>
+<!-- Instagram End -->
+
+<!-- Footer Start -->
+<div th:replace="common/front-common::#footer"></div>
+<!-- Footer End -->
+
+<!-- Vendor Scripts -->
+<script src="front/assets/js/plugins/jquery-3.4.1.min.js"></script>
+<script src="front/assets/js/plugins/popper.min.js"></script>
+<script src="front/assets/js/plugins/waypoint.js"></script>
+<script src="front/assets/js/plugins/bootstrap.min.js"></script>
+<script src="front/assets/js/plugins/jquery.magnific-popup.min.js"></script>
+<script src="front/assets/js/plugins/jquery.slimScroll.min.js"></script>
+<script src="front/assets/js/plugins/imagesloaded.min.js"></script>
+<script src="front/assets/js/plugins/jquery.steps.min.js"></script>
+<script src="front/assets/js/plugins/jquery.countdown.min.js"></script>
+<script src="front/assets/js/plugins/isotope.pkgd.min.js"></script>
+<script src="front/assets/js/plugins/slick.min.js"></script>
+<script src="front/assets/js/plugins/ion.rangeSlider.min.js"></script>
+<script src="front/assets/js/plugins/jquery.zoom.min.js"></script>
+
+
+<!-- Coffeez Scripts -->
+<script src="front/assets/js/main.js"></script>
+<script src="common/js/xtiper.min.js"></script>
+<script src="common/js/sweetalert.js"></script>
+<script src="common/js/custom.js"></script>
+
+</body>
+
+</html>

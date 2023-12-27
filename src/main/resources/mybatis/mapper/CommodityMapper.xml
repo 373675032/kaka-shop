@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="world.xuewei.mapper.CommodityMapper">
+
+    <!--commodity的映射结果集-->
+    <resultMap type="world.xuewei.entity.Commodity" id="CommodityMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="info" column="info" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="color" column="color" jdbcType="VARCHAR"/>
+        <result property="material" column="material" jdbcType="VARCHAR"/>
+        <result property="origin" column="origin" jdbcType="VARCHAR"/>
+        <result property="classifyId" column="classify_id" jdbcType="INTEGER"/>
+        <result property="originalPrice" column="original_price" jdbcType="NUMERIC"/>
+        <result property="nowPrice" column="now_price" jdbcType="NUMERIC"/>
+        <result property="inventory" column="inventory" jdbcType="INTEGER"/>
+        <result property="publishTime" column="publish_time" jdbcType="TIMESTAMP"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="img" column="img" jdbcType="VARCHAR"/>
+        <result property="saleCount" column="sale_count" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--全部字段-->
+    <sql id="allColumn"> id, name, info, description, color, material, origin, classify_id, original_price, now_price, inventory, publish_time, status, img, sale_count </sql>
+
+    <!--添加语句的字段列表-->
+    <sql id="insertColumn">
+        <if test="name != null and name != ''">
+            name,
+        </if>
+        <if test="info != null and info != ''">
+            info,
+        </if>
+        <if test="description != null and description != ''">
+            description,
+        </if>
+        <if test="color != null and color != ''">
+            color,
+        </if>
+        <if test="material != null and material != ''">
+            material,
+        </if>
+        <if test="origin != null and origin != ''">
+            origin,
+        </if>
+        <if test="classifyId != null">
+            classify_id,
+        </if>
+        <if test="originalPrice != null">
+            original_price,
+        </if>
+        <if test="nowPrice != null">
+            now_price,
+        </if>
+        <if test="inventory != null">
+            inventory,
+        </if>
+        <if test="publishTime != null">
+            publish_time,
+        </if>
+        <if test="status != null">
+            status,
+        </if>
+        <if test="img != null and img != ''">
+            img,
+        </if>
+        <if test="saleCount != null">
+            sale_count,
+        </if>
+    </sql>
+
+    <!--添加语句的值列表-->
+    <sql id="insertValue">
+        <if test="name != null and name != ''">
+            #{name},
+        </if>
+        <if test="info != null and info != ''">
+            #{info},
+        </if>
+        <if test="description != null and description != ''">
+            #{description},
+        </if>
+        <if test="color != null and color != ''">
+            #{color},
+        </if>
+        <if test="material != null and material != ''">
+            #{material},
+        </if>
+        <if test="origin != null and origin != ''">
+            #{origin},
+        </if>
+        <if test="classifyId != null">
+            #{classifyId},
+        </if>
+        <if test="originalPrice != null">
+            #{originalPrice},
+        </if>
+        <if test="nowPrice != null">
+            #{nowPrice},
+        </if>
+        <if test="inventory != null">
+            #{inventory},
+        </if>
+        <if test="publishTime != null">
+            #{publishTime},
+        </if>
+        <if test="status != null">
+            #{status},
+        </if>
+        <if test="img != null and img != ''">
+            #{img},
+        </if>
+        <if test="saleCount != null">
+            #{saleCount},
+        </if>
+    </sql>
+
+    <!--通用对Commodity各个属性的值的非空判断，Insert、Update使用-->
+    <sql id="commonsValue">
+        <if test="name != null and name != ''">
+            name = #{name},
+        </if>
+        <if test="info != null and info != ''">
+            info = #{info},
+        </if>
+        <if test="description != null and description != ''">
+            description = #{description},
+        </if>
+        <if test="color != null and color != ''">
+            color = #{color},
+        </if>
+        <if test="material != null and material != ''">
+            material = #{material},
+        </if>
+        <if test="origin != null and origin != ''">
+            origin = #{origin},
+        </if>
+        <if test="classifyId != null">
+            classify_id = #{classifyId},
+        </if>
+        <if test="originalPrice != null">
+            original_price = #{originalPrice},
+        </if>
+        <if test="nowPrice != null">
+            now_price = #{nowPrice},
+        </if>
+        <if test="inventory != null">
+            inventory = #{inventory},
+        </if>
+        <if test="publishTime != null">
+            publish_time = #{publishTime},
+        </if>
+        <if test="status != null">
+            status = #{status},
+        </if>
+        <if test="img != null and img != ''">
+            img = #{img},
+        </if>
+        <if test="saleCount != null">
+            sale_count = #{saleCount},
+        </if>
+    </sql>
+
+    <!--通用对Commodity各个属性的值的非空判断,Where查询使用-->
+    <sql id="commonsQuery">
+        <if test="name != null and name != ''">
+            and name = #{name}
+        </if>
+        <if test="info != null and info != ''">
+            and info = #{info}
+        </if>
+        <if test="description != null and description != ''">
+            and description = #{description}
+        </if>
+        <if test="color != null and color != ''">
+            and color = #{color}
+        </if>
+        <if test="material != null and material != ''">
+            and material = #{material}
+        </if>
+        <if test="origin != null and origin != ''">
+            and origin = #{origin}
+        </if>
+        <if test="classifyId != null">
+            and classify_id = #{classifyId}
+        </if>
+        <if test="originalPrice != null">
+            and original_price = #{originalPrice}
+        </if>
+        <if test="nowPrice != null">
+            and now_price = #{nowPrice}
+        </if>
+        <if test="inventory != null">
+            and inventory = #{inventory}
+        </if>
+        <if test="publishTime != null">
+            and publish_time = #{publishTime}
+        </if>
+        <if test="status != null">
+            and status = #{status}
+        </if>
+        <if test="img != null and img != ''">
+            and img = #{img}
+        </if>
+        <if test="saleCount != null">
+            and sale_count = #{saleCount}
+        </if>
+    </sql>
+
+    <!--新增commodity:哪个字段不为空就添加哪列数据,返回自增主键-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into commodity
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <include refid="insertColumn"/>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <include refid="insertValue"/>
+        </trim>
+    </insert>
+
+    <!--删除commodity:通过主键-->
+    <delete id="deleteById">
+        delete from commodity
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+
+    <!--查询单个commodity-->
+    <select id="getById" resultMap="CommodityMap">
+        select
+        <include refid="allColumn"></include>
+        from commodity
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="listCommoditys" resultMap="CommodityMap">
+        select
+        <include refid="allColumn"></include>
+        from commodity
+        <trim prefix="where" prefixOverrides="and" suffixOverrides=",">
+            <include refid="commonsQuery"></include>
+        </trim>
+        order by publish_time desc
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="listCommoditysOrderBySaleCount" resultMap="CommodityMap">
+        select
+        <include refid="allColumn"></include>
+        from commodity
+        where status = 1
+        order by sale_count desc
+    </select>
+
+    <!--通过实体作为筛选条件获取结果数量-->
+    <select id="countCommoditys" resultType="java.lang.Integer">
+        select
+        count(*)
+        from commodity
+        <trim prefix="where" prefixOverrides="and" suffixOverrides=",">
+            <include refid="commonsQuery"></include>
+        </trim>
+    </select>
+
+    <!--根据关键字查询商品-->
+    <select id="listCommoditysByKeyWord" resultType="world.xuewei.entity.Commodity">
+        select
+        <include refid="allColumn"></include>
+        from commodity
+        where name like #{keyWord} or info like #{keyWord} or description like #{keyWord}
+        order by publish_time desc
+    </select>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update commodity
+        <set>
+            <include refid="commonsValue"></include>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+</mapper>

@@ -1,0 +1,350 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>商品详情</title>
+
+  <!-- Vendor Stylesheets -->
+  <link rel="stylesheet" href="front/assets/css/plugins/bootstrap.min.css">
+  <link rel="stylesheet" href="front/assets/css/plugins/animate.min.css">
+  <link rel="stylesheet" href="front/assets/css/plugins/magnific-popup.css">
+  <link rel="stylesheet" href="front/assets/css/plugins/slick.css">
+  <link rel="stylesheet" href="front/assets/css/plugins/slick-theme.css">
+  <link rel="stylesheet" href="front/assets/css/plugins/ion.rangeSlider.min.css">
+
+  <!-- Icon Fonts -->
+  <link rel="stylesheet" href="front/assets/fonts/flaticon/flaticon.css">
+  <link rel="stylesheet" href="front/assets/fonts/font-awesome/css/all.min.css">
+
+  <!-- Coffeez Style sheet -->
+  <link rel="stylesheet" href="front/assets/css/style.css">
+  <link rel="stylesheet" href="common/css/xtiper.css">
+  <link rel="stylesheet" href="common/css/sweetalert.css">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.ico">
+
+</head>
+
+<body>
+
+  <div th:replace="common/front-common::#front1"></div>
+  <div th:replace="common/front-common::#androNewsletterPopup"></div>
+  <div th:replace="common/front-common::#front4"></div>
+  <div th:replace="common/front-common::#front5"></div>
+  <div th:replace="common/front-common::#front6"></div>
+  <div th:replace="common/front-common::#front7"></div>
+  <div th:replace="common/front-common::#front8"></div>
+
+  <!-- Product Content Start -->
+  <div class="section">
+    <div class="container">
+
+      <div class="row">
+        <div class="col-md-5">
+          <div class="andro_product-single-thumb">
+            <img th:src="${commodity.img}" alt="product">
+          </div>
+
+        </div>
+        <div class="col-md-7">
+
+          <div class="andro_product-single-content">
+
+            <div class="andro_rating-wrapper">
+              <div class="andro_rating" th:if="${commodity.stars == 1}">
+                <i class="fa fa-star active"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+              </div>
+              <div class="andro_rating" th:if="${commodity.stars == 2}">
+                <i class="fa fa-star active"></i>
+                <i class="fa fa-star active"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+              </div>
+              <div class="andro_rating" th:if="${commodity.stars == 3}">
+                <i class="fa fa-star active"></i>
+                <i class="fa fa-star active"></i>
+                <i class="fa fa-star active"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+              </div>
+              <div class="andro_rating" th:if="${commodity.stars == 4}">
+                <i class="fa fa-star active"></i>
+                <i class="fa fa-star active"></i>
+                <i class="fa fa-star active"></i>
+                <i class="fa fa-star active"></i>
+                <i class="fa fa-star"></i>
+              </div>
+              <div class="andro_rating" th:if="${commodity.stars == 5}">
+                <i class="fa fa-star active"></i>
+                <i class="fa fa-star active"></i>
+                <i class="fa fa-star active"></i>
+                <i class="fa fa-star active"></i>
+                <i class="fa fa-star active"></i>
+              </div>
+              <div class="andro_rating" th:if="${commodity.stars == null}">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+              </div>
+
+              <span th:if="${commodity.stars != null}" th:text="${commodity.stars +' Stars'}"></span>
+              <span th:if="${commodity.stars == null}">暂无评星</span>
+            </div>
+
+            <h3 th:text="${commodity.name + '-' + commodity.classify}"></h3>
+
+            <hr>
+            <div class="andro_product-price">
+              <span th:text="${'¥'+commodity.nowPrice}"></span>
+              <span th:text="${'¥'+commodity.originalPrice}"></span>
+            </div>
+
+            <p class="andro_product-excerpt" th:text="${commodity.info}"></p>
+
+            <form class="andro_product-atc-form" th:if="${session.loginUser != null}">
+
+              <div class="qty-outter">
+                <a style="margin-left: 10px" href="javascript:void(0)" th:onclick="addToCart([[${commodity.id}]])" class="andro_btn-custom">加入购物车</a>
+                <div class="qty">
+                  <span class="qty-subtract"><i class="fa fa-minus"></i></span>
+                  <input id="count" type="text" name="qty" value="1" disabled>
+                  <span class="qty-add"><i class="fa fa-plus"></i></span>
+                </div>
+                <a th:if="${commodity.addTime == null}" style="margin-left: 10px" href="#" th:onclick="doCollect([[${commodity.id}]])" class="andro_btn-custom"><i class="flaticon-like"></i></a>
+                <a th:if="${commodity.addTime != null}" style="margin-left: 10px" href="#" th:onclick="undoCollect([[${commodity.id}]])" class="andro_btn-custom"><i class="flaticon-like-1"></i></a>
+              </div>
+            </form>
+
+            <ul class="andro_product-meta">
+              <li>
+                <span>分类: </span>
+                <div class="andro_product-meta-item">
+                  <a th:href="@{list(classifyId=${commodity.classifyId})}" th:text="${commodity.classify}"></a>
+                </div>
+              </li>
+              <li>
+                <span>折扣: </span>
+                <div class="andro_product-meta-item">
+                  <a href="#" th:text="${'当前商品享受 '+commodity.discount+' 折优惠'}"></a>
+                </div>
+              </li>
+              <li>
+                <span>销量: </span>
+                <div class="andro_product-meta-item">
+                  <a href="#" th:text="${'累计售出 '+commodity.saleCount+'（件）'}"></a>
+                </div>
+              </li>
+            </ul>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- Product Content End -->
+
+  <!-- Additional Information Start -->
+  <div class="section pt-0">
+    <div class="container">
+      <div class="andro_product-additional-info">
+        <div class="row">
+
+          <div class="col-lg-4">
+            <ul class="nav andro_sticky-section" id="bordered-tab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="tab-product-desc-tab" data-toggle="pill" href="#tab-product-desc" role="tab" aria-controls="tab-product-desc" aria-selected="true">商品描述</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="tab-product-info-tab" data-toggle="pill" href="#tab-product-info" role="tab" aria-controls="tab-product-info" aria-selected="false">更多信息</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="tab-product-reviews-tab" data-toggle="pill" href="#tab-product-reviews" role="tab" aria-controls="tab-product-reviews" aria-selected="false" th:text="${'商品评论 ('+commentCount+'）'}">)</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-lg-8">
+            <div class="tab-content" id="bordered-tabContent">
+              <div class="tab-pane fade show active" id="tab-product-desc" role="tabpanel" aria-labelledby="tab-product-desc-tab">
+                [[${commodity.description}]]
+              </div>
+              <div class="tab-pane fade" id="tab-product-info" role="tabpanel" aria-labelledby="tab-product-info-tab">
+                <table>
+                  <tbody>
+                  <tr>
+                    <td> <strong>颜色</strong> </td>
+                    <td th:text="${commodity.color}"></td>
+                  </tr>
+                  <tr>
+                    <td> <strong>原材料</strong> </td>
+                    <td th:text="${commodity.material}"></td>
+                  </tr>
+                  <tr>
+                    <td> <strong>产地</strong> </td>
+                    <td th:text="${commodity.origin}"></td>
+                  </tr>
+                  <tr>
+                    <td> <strong>状态</strong> </td>
+                    <td th:if="${commodity.status == 1}">已上架</td>
+                    <td th:if="${commodity.status == 0}">抱歉，该商品已下架</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="tab-pane fade" id="tab-product-reviews" role="tabpanel" aria-labelledby="tab-product-reviews-tab">
+
+                <div th:if="${orderNumber != null}">
+                  <h4>发表评论</h4>
+                  <br>
+                  <!-- Review Form start -->
+                  <div class="comment-form">
+                    <form method="post">
+                      <div class="row">
+                        <div class="col-md-12 form-group">
+                          <input type="text" class="form-control" placeholder="星星数，请填写【1 - 5】的整数" id="stars" value="">
+                        </div>
+                        <div class="col-md-12 form-group">
+                          <textarea class="form-control" placeholder="填写你的评价" id="comment" rows="7"></textarea>
+                        </div>
+                      </div>
+
+                      <button type="button" th:onclick="addComment([[${commodity.id}]])" class="andro_btn-custom primary" name="button">发布</button>
+                    </form>
+                  </div>
+                </div>
+
+                <!-- Review Form End -->
+
+
+                <!-- Reviews Start -->
+                <div class="comments-list">
+                    <h4 th:if="${comments.size() == 0}">暂无评价</h4>
+                  <ul>
+                    <li class="comment-item" th:each="comment:${comments}">
+                      <img th:src="${comment.userImg}" alt="comment author">
+                      <div class="comment-body">
+
+                        <h5 th:text="${comment.userName}"></h5>
+                          <div class="andro_rating" th:if="${comment.stars == 1}">
+                            <i class="fa fa-star active"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                          </div>
+                          <div class="andro_rating" th:if="${comment.stars == 2}">
+                            <i class="fa fa-star active"></i>
+                            <i class="fa fa-star active"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                          </div>
+                          <div class="andro_rating" th:if="${comment.stars == 3}">
+                            <i class="fa fa-star active"></i>
+                            <i class="fa fa-star active"></i>
+                            <i class="fa fa-star active"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                          </div>
+                          <div class="andro_rating" th:if="${comment.stars == 4}">
+                            <i class="fa fa-star active"></i>
+                            <i class="fa fa-star active"></i>
+                            <i class="fa fa-star active"></i>
+                            <i class="fa fa-star active"></i>
+                            <i class="fa fa-star"></i>
+                          </div>
+                          <div class="andro_rating" th:if="${comment.stars == 5}">
+                            <i class="fa fa-star active"></i>
+                            <i class="fa fa-star active"></i>
+                            <i class="fa fa-star active"></i>
+                            <i class="fa fa-star active"></i>
+                            <i class="fa fa-star active"></i>
+                          </div>
+                          <div class="andro_rating" th:if="${comment.stars == null}">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                          </div>
+
+                        <span th:text="${'发布于：'+#dates.format(comment.commentTime,'yyyy年MM月dd日 HH:mm')}"></span>
+                        <p th:text="${comment.comment}"></p>
+                        <div class="comments-list" th:if="${comment.replyComments.size() > 0}">
+                          <hr>
+                          <ul>
+                            <li class="comment-item" th:each="reply:${comment.replyComments}">
+                              <img th:src="${reply.userImg}" alt="comment author">
+                              <div class="comment-body">
+
+                                <h5 th:text="${reply.userName}"></h5>
+
+                                <span th:text="${'回复于：'+#dates.format(reply.commentTime,'yyyy年MM月dd日 HH:mm')}"></span>
+                                <p th:text="${reply.comment}"></p>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <hr>
+                    </li>
+                  </ul>
+                </div>
+                <!-- Reviews End -->
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- Additional Information End -->
+
+  <!-- Instagram Start -->
+  <div th:replace="common/front-common::#instagram"></div>
+  <!-- Instagram End -->
+
+  <!-- Footer Start -->
+  <div th:replace="common/front-common::#footer"></div>
+  <!-- Footer End -->
+
+  <!-- Vendor Scripts -->
+  <script src="front/assets/js/plugins/jquery-3.4.1.min.js"></script>
+  <script src="front/assets/js/plugins/popper.min.js"></script>
+  <script src="front/assets/js/plugins/waypoint.js"></script>
+  <script src="front/assets/js/plugins/bootstrap.min.js"></script>
+  <script src="front/assets/js/plugins/jquery.magnific-popup.min.js"></script>
+  <script src="front/assets/js/plugins/jquery.slimScroll.min.js"></script>
+  <script src="front/assets/js/plugins/imagesloaded.min.js"></script>
+  <script src="front/assets/js/plugins/jquery.steps.min.js"></script>
+  <script src="front/assets/js/plugins/jquery.countdown.min.js"></script>
+  <script src="front/assets/js/plugins/isotope.pkgd.min.js"></script>
+  <script src="front/assets/js/plugins/slick.min.js"></script>
+  <script src="front/assets/js/plugins/ion.rangeSlider.min.js"></script>
+  <script src="front/assets/js/plugins/jquery.zoom.min.js"></script>
+
+
+  <!-- Coffeez Scripts -->
+  <script src="front/assets/js/main.js"></script>
+  <script src="common/js/xtiper.min.js"></script>
+  <script src="common/js/sweetalert.js"></script>
+  <script src="common/js/custom.js"></script>
+
+</body>
+
+</html>

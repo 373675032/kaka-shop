@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的地址</title>
+
+  <!-- Vendor Stylesheets -->
+  <link rel="stylesheet" href="front/assets/css/plugins/bootstrap.min.css">
+  <link rel="stylesheet" href="front/assets/css/plugins/animate.min.css">
+  <link rel="stylesheet" href="front/assets/css/plugins/magnific-popup.css">
+  <link rel="stylesheet" href="front/assets/css/plugins/slick.css">
+  <link rel="stylesheet" href="front/assets/css/plugins/slick-theme.css">
+  <link rel="stylesheet" href="front/assets/css/plugins/ion.rangeSlider.min.css">
+
+  <!-- Icon Fonts -->
+  <link rel="stylesheet" href="front/assets/fonts/flaticon/flaticon.css">
+  <link rel="stylesheet" href="front/assets/fonts/font-awesome/css/all.min.css">
+
+  <!-- Coffeez Style sheet -->
+  <link rel="stylesheet" href="front/assets/css/style.css">
+  <link rel="stylesheet" href="common/css/xtiper.css">
+  <link rel="stylesheet" href="common/css/sweetalert.css">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.ico">
+
+</head>
+
+<body>
+
+  <div th:replace="common/front-common::#front1"></div>
+  <div th:replace="common/front-common::#androNewsletterPopup"></div>
+  <div th:replace="common/front-common::#front4"></div>
+  <div th:replace="common/front-common::#front5"></div>
+  <div th:replace="common/front-common::#front6"></div>
+  <div th:replace="common/front-common::#front7"></div>
+  <div th:replace="common/front-common::#front8"></div>
+
+  <!-- Subheader Start -->
+  <div class="andro_subheader pattern-bg primary-bg">
+    <div class="container">
+      <div class="andro_subheader-inner">
+        <h1>我的地址</h1>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">主页</a></li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <!-- Subheader End -->
+
+  <!-- Wishlist Start -->
+  <div class="section">
+    <div class="container">
+      <!-- Wishlist Table Start -->
+      <table class="andro_responsive-table">
+        <thead>
+        <tr>
+          <th class="remove-item"></th>
+          <th style="text-align: center">姓名</th>
+          <th style="text-align: center">收货地址</th>
+          <th style="text-align: center">手机号码</th>
+          <th style="text-align: center">是否默认</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr th:each="address:${addresses}">
+            <td class="remove">
+              <button type="button" th:onclick="deleteAddress([[${address.id}]])" class="close-btn close-danger remove-from-cart">
+                <span></span>
+                <span></span>
+              </button>
+            </td>
+            <td style="text-align: center" th:text="${address.name}"></td>
+            <td style="text-align: center" th:text="${address.address}"></td>
+            <td style="text-align: center" th:text="${address.phone}"></td>
+            <td style="text-align: center">
+              <input th:if="${address.isDefault == 0}" type="checkbox" th:onchange="updateAddress([[${address.id}]])">
+              <input th:if="${address.isDefault == 1}" type="checkbox" th:onchange="updateAddress([[${address.id}]])" checked>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- Wishlist Table End -->
+
+      <hr>
+      <div class="row col-12 custom-control-inline">
+        <div class="col-3">
+          <input class="form-control" id="name" placeholder="姓名" type="text">
+        </div>
+        <div class="col-4">
+          <input class="form-control" id="address" placeholder="地址" type="text">
+        </div>
+        <div class="col-3">
+          <input class="form-control" id="phone" placeholder="手机号码" type="text">
+        </div>
+        <div class="col-2">
+          <a href="javascript:void (0)" onclick="addAddress()" class="andro_btn-custom btn-sm shadow-none">添加</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!--  Wishlist End -->
+
+  <!-- Instagram Start -->
+  <div th:replace="common/front-common::#instagram"></div>
+  <!-- Instagram End -->
+
+  <!-- Footer Start -->
+  <div th:replace="common/front-common::#footer"></div>
+  <!-- Footer End -->
+
+  <!-- Vendor Scripts -->
+  <script src="front/assets/js/plugins/jquery-3.4.1.min.js"></script>
+  <script src="front/assets/js/plugins/popper.min.js"></script>
+  <script src="front/assets/js/plugins/waypoint.js"></script>
+  <script src="front/assets/js/plugins/bootstrap.min.js"></script>
+  <script src="front/assets/js/plugins/jquery.magnific-popup.min.js"></script>
+  <script src="front/assets/js/plugins/jquery.slimScroll.min.js"></script>
+  <script src="front/assets/js/plugins/imagesloaded.min.js"></script>
+  <script src="front/assets/js/plugins/jquery.steps.min.js"></script>
+  <script src="front/assets/js/plugins/jquery.countdown.min.js"></script>
+  <script src="front/assets/js/plugins/isotope.pkgd.min.js"></script>
+  <script src="front/assets/js/plugins/slick.min.js"></script>
+  <script src="front/assets/js/plugins/ion.rangeSlider.min.js"></script>
+  <script src="front/assets/js/plugins/jquery.zoom.min.js"></script>
+
+
+  <!-- Coffeez Scripts -->
+  <script src="front/assets/js/main.js"></script>
+  <script src="common/js/xtiper.min.js"></script>
+  <script src="common/js/sweetalert.js"></script>
+  <script src="common/js/custom.js"></script>
+
+</body>
+
+</html>

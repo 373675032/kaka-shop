@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="world.xuewei.mapper.CommodityCommentMapper">
+
+    <!--commodity_comment的映射结果集-->
+    <resultMap type="world.xuewei.entity.CommodityComment" id="CommodityCommentMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="commodityId" column="commodity_id" jdbcType="INTEGER"/>
+        <result property="stars" column="stars" jdbcType="INTEGER"/>
+        <result property="comment" column="comment" jdbcType="VARCHAR"/>
+        <result property="commentTime" column="comment_time" jdbcType="TIMESTAMP"/>
+        <result property="replyId" column="reply_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--全部字段-->
+    <sql id="allColumn"> id, user_id, commodity_id, stars, comment, comment_time, reply_id </sql>
+
+    <!--添加语句的字段列表-->
+    <sql id="insertColumn">
+        <if test="userId != null">
+            user_id,
+        </if>
+        <if test="commodityId != null">
+            commodity_id,
+        </if>
+        <if test="stars != null">
+            stars,
+        </if>
+        <if test="comment != null and comment != ''">
+            comment,
+        </if>
+        <if test="commentTime != null">
+            comment_time,
+        </if>
+        <if test="replyId != null">
+            reply_id,
+        </if>
+    </sql>
+
+    <!--添加语句的值列表-->
+    <sql id="insertValue">
+        <if test="userId != null">
+            #{userId},
+        </if>
+        <if test="commodityId != null">
+            #{commodityId},
+        </if>
+        <if test="stars != null">
+            #{stars},
+        </if>
+        <if test="comment != null and comment != ''">
+            #{comment},
+        </if>
+        <if test="commentTime != null">
+            #{commentTime},
+        </if>
+        <if test="replyId != null">
+            #{replyId},
+        </if>
+    </sql>
+
+    <!--通用对CommodityComment各个属性的值的非空判断，Insert、Update使用-->
+    <sql id="commonsValue">
+        <if test="userId != null">
+            user_id = #{userId},
+        </if>
+        <if test="commodityId != null">
+            commodity_id = #{commodityId},
+        </if>
+        <if test="stars != null">
+            stars = #{stars},
+        </if>
+        <if test="comment != null and comment != ''">
+            comment = #{comment},
+        </if>
+        <if test="commentTime != null">
+            comment_time = #{commentTime},
+        </if>
+        <if test="replyId != null">
+            reply_id = #{replyId},
+        </if>
+    </sql>
+
+    <!--通用对CommodityComment各个属性的值的非空判断,Where查询使用-->
+    <sql id="commonsQuery">
+        <if test="userId != null">
+            and user_id = #{userId}
+        </if>
+        <if test="commodityId != null">
+            and commodity_id = #{commodityId}
+        </if>
+        <if test="stars != null">
+            and stars = #{stars}
+        </if>
+        <if test="comment != null and comment != ''">
+            and comment = #{comment}
+        </if>
+        <if test="commentTime != null">
+            and comment_time = #{commentTime}
+        </if>
+        <if test="replyId != null">
+            and reply_id = #{replyId}
+        </if>
+    </sql>
+
+    <!--新增commodity_comment:哪个字段不为空就添加哪列数据,返回自增主键-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into commodity_comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <include refid="insertColumn"/>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <include refid="insertValue"/>
+        </trim>
+    </insert>
+
+    <!--删除commodity_comment:通过主键-->
+    <delete id="deleteById">
+        delete from commodity_comment
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+
+    <!--查询单个commodity_comment-->
+    <select id="getById" resultMap="CommodityCommentMap">
+        select
+        <include refid="allColumn"></include>
+        from commodity_comment
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="listCommodityComments" resultMap="CommodityCommentMap">
+        select
+        <include refid="allColumn"></include>
+        from commodity_comment
+        <trim prefix="where" prefixOverrides="and" suffixOverrides=",">
+            <include refid="commonsQuery"></include>
+        </trim>
+        order by comment_time desc
+    </select>
+
+    <!--通过实体作为筛选条件获取结果数量-->
+    <select id="countCommodityComments" resultType="java.lang.Integer">
+        select
+        count(*)
+        from commodity_comment
+        <trim prefix="where" prefixOverrides="and" suffixOverrides=",">
+            <include refid="commonsQuery"></include>
+        </trim>
+    </select>
+
+    <!--获取某商品的平均Star数-->
+    <select id="getAvgStar" resultType="java.lang.Double">
+        SELECT avg(stars) FROM commodity_comment where commodity_id = #{commodityId} and reply_id is null
+    </select>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update commodity_comment
+        <set>
+            <include refid="commonsValue"></include>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+</mapper>

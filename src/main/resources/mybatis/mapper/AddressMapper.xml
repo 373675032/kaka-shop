@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="world.xuewei.mapper.AddressMapper">
+
+    <!--address的映射结果集-->
+    <resultMap type="world.xuewei.entity.Address" id="AddressMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="isDefault" column="is_default" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--全部字段-->
+    <sql id="allColumn"> id, user_id, name, address, phone, is_default </sql>
+
+    <!--添加语句的字段列表-->
+    <sql id="insertColumn">
+        <if test="userId != null">
+                user_id,
+        </if>
+        <if test="name != null and name != ''">
+                name,
+        </if>
+        <if test="address != null and address != ''">
+                address,
+        </if>
+        <if test="phone != null and phone != ''">
+                phone,
+        </if>
+        <if test="isDefault != null">
+                is_default,
+        </if>
+    </sql>
+
+    <!--添加语句的值列表-->
+        <sql id="insertValue">
+        <if test="userId != null">
+                #{userId},
+        </if>
+        <if test="name != null and name != ''">
+                #{name},
+        </if>
+        <if test="address != null and address != ''">
+                #{address},
+        </if>
+        <if test="phone != null and phone != ''">
+                #{phone},
+        </if>
+        <if test="isDefault != null">
+                #{isDefault},
+        </if>
+    </sql>
+
+    <!--通用对Address各个属性的值的非空判断，Insert、Update使用-->
+    <sql id="commonsValue">
+        <if test="userId != null">
+                user_id = #{userId},
+        </if>
+        <if test="name != null and name != ''">
+                name = #{name},
+        </if>
+        <if test="address != null and address != ''">
+                address = #{address},
+        </if>
+        <if test="phone != null and phone != ''">
+                phone = #{phone},
+        </if>
+        <if test="isDefault != null">
+                is_default = #{isDefault},
+        </if>
+    </sql>
+
+        <!--通用对Address各个属性的值的非空判断,Where查询使用-->
+    <sql id="commonsQuery">
+        <if test="userId != null">
+                and user_id = #{userId}
+        </if>
+        <if test="name != null and name != ''">
+                and name = #{name}
+        </if>
+        <if test="address != null and address != ''">
+                and address = #{address}
+        </if>
+        <if test="phone != null and phone != ''">
+                and phone = #{phone}
+        </if>
+        <if test="isDefault != null">
+                and is_default = #{isDefault}
+        </if>
+    </sql>
+
+    <!--新增address:哪个字段不为空就添加哪列数据,返回自增主键-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into address
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <include refid="insertColumn"/>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <include refid="insertValue"/>
+        </trim>
+    </insert>
+
+    <!--删除address:通过主键-->
+    <delete id="deleteById">
+        delete from address
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+
+    <!--查询单个address-->
+    <select id="getById" resultMap="AddressMap">
+        select
+        <include refid="allColumn"></include>
+        from address
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="listAddresss" resultMap="AddressMap">
+        select
+          <include refid="allColumn"></include>
+        from address
+        <trim prefix="where" prefixOverrides="and" suffixOverrides=",">
+            <include refid="commonsQuery"></include>
+        </trim>
+    </select>
+
+    <!--通过实体作为筛选条件获取结果数量-->
+    <select id="countAddresss" resultType="java.lang.Integer">
+        select
+          count(*)
+        from address
+        <trim prefix="where" prefixOverrides="and" suffixOverrides=",">
+            <include refid="commonsQuery"></include>
+        </trim>
+    </select>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update address
+        <set>
+            <include refid="commonsValue"></include>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+</mapper>

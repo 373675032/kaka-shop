@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
+          name="viewport">
+    <title>待收货</title>
+    <!-- Favicon and Touch Icons -->
+    <link href="common/favicon.png" rel="shortcut icon" type="image/png">
+    <link rel="stylesheet" href="background/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="background/modules/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="background/modules/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css">
+
+    <link rel="stylesheet" href="background/modules/summernote/summernote-lite.css">
+    <link rel="stylesheet" href="background/modules/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="background/css/style.css">
+    <link rel="stylesheet" href="common/css/xtiper.css">
+    <link rel="stylesheet" href="common/css/sweetalert.css">
+    <link rel="stylesheet" href="common/datatable/dataTables.bootstrap4.min.css"/>
+</head>
+
+<body>
+<div id="app">
+    <div class="main-wrapper">
+        <div class="navbar-bg"></div>
+        <div th:replace="common/background-common::navbar(currUri='wait-take')"></div>
+        <div th:replace="common/background-common::sidebar(currUri='wait-take')"></div>
+
+        <div class="main-content">
+            <section class="section">
+                <h1 class="section-header">
+                    <div>待收货 <i class="ion ion-archive"></i></div>
+                </h1>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="example1" class="table table-bordered table-hover display" style="text-align: center">
+                                        <thead>
+                                        <tr>
+                                            <th>订单号</th>
+                                            <th>内容</th>
+                                            <th>用户名</th>
+                                            <th>快递公司</th>
+                                            <th>快递单号</th>
+                                            <th>收货信息</th>
+                                            <th>发货时间</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody style="font-size: 12px">
+                                        <tr th:each="order:${orders}">
+                                            <td th:text="${order.orderNumber}"></td>
+                                            <td th:text="${order.content}"></td>
+                                            <td th:text="${order.user.name}"></td>
+                                            <td th:text="${order.courierName}"></td>
+                                            <td th:text="${order.courierNumber}"></td>
+                                            <td th:text="${order.address.name + ' - ' + order.address.address + ' - ' + order.address.phone}"></td>
+                                            <td th:text="${#dates.format(order.sippingTime,'yyyy-MM-dd HH:ss')}"></td>
+                                        </tr>
+                                        </tbody>
+                                        <thead>
+                                        </thead>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div><!-- end card-->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div th:replace="common/background-common::footer"></div>
+    </div>
+</div>
+
+<script src="background/modules/jquery.min.js"></script>
+<script src="common/js/xtiper.min.js"></script>
+<script src="common/js/sweetalert.js"></script>
+<script src="common/js/custom.js"></script>
+<script src="common/datatable/jquery.dataTables.min.js"></script>
+<script src="common/datatable/dataTables.bootstrap4.min.js"></script>
+<script src="background/modules/popper.js"></script>
+<script src="background/modules/tooltip.js"></script>
+<script src="background/modules/bootstrap/js/bootstrap.min.js"></script>
+<script src="background/modules/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="background/modules/scroll-up-bar/dist/scroll-up-bar.min.js"></script>
+<script src="background/js/sa-functions.js"></script>
+
+<script src="background/modules/chart.min.js"></script>
+<script src="background/modules/summernote/summernote-lite.js"></script>
+
+<script src="background/js/scripts.js"></script>
+<script>
+    // START CODE FOR BASIC DATA TABLE
+    $(document).ready(function() {
+        $('#example1').DataTable({
+            language: {
+                "sProcessing": "处理中...",
+                "sLengthMenu": "显示 _MENU_ 项结果",
+                "sZeroRecords": "没有匹配结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上页",
+                    "sNext": "下页",
+                    "sLast": "末页"
+                },
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
+                }
+            },
+            "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 5 ]}],
+            "order": [4, "desc"]
+        });
+    });
+
+</script>
+
+</body>
+</html>

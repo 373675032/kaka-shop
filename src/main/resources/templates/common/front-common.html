@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>前台-公共部门</title>
+</head>
+<body>
+
+<!-- Prealoder start -->
+<div class="andro_preloader" id="front1">
+    <div class="spinner">
+        <div class="dot1"></div>
+        <div class="dot2"></div>
+    </div>
+</div>
+<!-- Prealoader End -->
+
+<!-- Newsletter Modal Start -->
+<div aria-hidden="true" class="modal fade" id="androNewsletterPopup" role="dialog" tabindex="-1">
+    <div class="modal-dialog andro_newsletter-popup-modal modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <img alt="newsletter" src="front/assets/img/ig/3.jpg">
+                <div class="close-btn close newsletter-popup-trigger" data-dismiss="modal">
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="modal-body">
+
+                <div class="andro_newsletter-popup-text-wrapper">
+                    <h3>Join Our Newsletter</h3>
+                    <p>Sed porttitor lectus nibh. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem.
+                        Curabitur aliquet quam id dui posuere.</p>
+                </div>
+
+                <form class="text-center" method="post">
+                    <div class="form-group">
+                        <input class="form-control" name="newsletter-email" placeholder="Email Address" type="email"
+                               value="">
+                    </div>
+                    <button class="andro_btn-custom" name="button" type="submit">Subscribe</button>
+                    <span class="newsletter-popup-trigger" data-dismiss="modal">No Thanks</span>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Newsletter Modal End -->
+
+<!-- Aside (Right Panel) -->
+<aside class="andro_aside andro_aside-right" id="front4">
+    <div class="sidebar">
+
+        <!-- Popular Categories Start -->
+        <div class="sidebar-widget widget-categories-icons" th:if="${session.loginUser != null}">
+            <h5 class="widget-title">个人中心</h5>
+            <div class="row">
+                <div class="col-lg-6" th:if="${session.loginUser.role == 1}">
+                    <div class="andro_icon-block text-center has-link">
+                        <a href="user-manage">
+                            <i class="flaticon-coffee-cup"></i>
+                            <h5>后台管理</h5>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="andro_icon-block text-center has-link">
+                        <a href="profile">
+                            <i class="flaticon-info"></i>
+                            <h5>我的资料</h5>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="andro_icon-block text-center has-link">
+                        <a href="address">
+                            <i class="flaticon-location"></i>
+                            <h5>我的地址</h5>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="andro_icon-block text-center has-link">
+                        <a href="password.html">
+                            <i class="flaticon-coffee-beans"></i>
+                            <h5>修改密码</h5>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="andro_icon-block text-center has-link">
+                        <a href="cart">
+                            <i class="flaticon-shopping-cart-1"></i>
+                            <h5>我的购物车</h5>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="andro_icon-block text-center has-link">
+                        <a href="my-order">
+                            <i class="flaticon-coffee"></i>
+                            <h5>我的订单</h5>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="andro_icon-block text-center has-link">
+                        <a href="collection">
+                            <i class="flaticon-like"></i>
+                            <h5>我的收藏</h5>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="andro_icon-block text-center has-link">
+                        <a href="logout">
+                            <i class="flaticon-remove"></i>
+                            <h5>退出登录</h5>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- Popular Categories End -->
+
+    </div>
+</aside>
+<div class="andro_aside-overlay aside-trigger-right" id="front5"></div>
+
+<!-- Aside (Mobile Navigation) -->
+<aside class="andro_aside andro_aside-left" id="front6">
+    <a class="navbar-brand" href="index.html"> <img alt="logo" src="front/assets/img/logo.png"> </a>
+
+    <ul>
+        <li class="menu-item menu-item-has-children">
+            <a href="#">Home Pages</a>
+            <ul class="sub-menu">
+                <li class="menu-item"><a href="index.html">Home v1</a></li>
+                <li class="menu-item"><a href="home-v2.html">Home v2</a></li>
+                <li class="menu-item"><a href="home-v3.html">Home v3</a></li>
+            </ul>
+        </li>
+        <li class="menu-item menu-item-has-children">
+            <a href="#">Blog</a>
+            <ul class="sub-menu">
+                <li class="menu-item menu-item-has-children">
+                    <a href="blog-grid.html">Blog Archive</a>
+                    <ul class="sub-menu">
+                        <li class="menu-item"><a href="blog-grid.html">Grid View</a></li>
+                        <li class="menu-item"><a href="blog-list.html">List View</a></li>
+                        <li class="menu-item"><a href="blog-masonry.html">Masonry View</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item"><a href="post-single.html">Blog Single</a></li>
+            </ul>
+        </li>
+        <li class="menu-item menu-item-has-children">
+            <a href="#">Pages</a>
+            <ul class="sub-menu">
+                <li class="menu-item"><a href="about-us.html">About Us</a></li>
+                <li class="menu-item"><a href="login.html">Login</a></li>
+                <li class="menu-item"><a href="register.html">Sign Up</a></li>
+                <li class="menu-item"><a href="checkout.html">Checkout</a></li>
+                <li class="menu-item"><a href="cart.html">Cart</a></li>
+                <li class="menu-item"><a href="wishlist.html">Wish List</a></li>
+                <li class="menu-item"><a href="legal.html">Legal</a></li>
+                <li class="menu-item"><a href="error.html">Error 404</a></li>
+            </ul>
+        </li>
+        <li class="menu-item menu-item-has-children">
+            <a href="#">Shop Pages</a>
+            <ul class="sub-menu">
+                <li class="menu-item"><a href="shop-v1.html"> Shop v1 (Default) </a></li>
+                <li class="menu-item"><a href="shop-v2.html"> Shop v2 (Full Width) </a></li>
+                <li class="menu-item"><a href="shop-v3.html"> Shop v3 (No Sidebar) </a></li>
+                <li class="menu-item"><a href="shop-v4.html"> Shop v4 (List view) </a></li>
+            </ul>
+        </li>
+        <li class="menu-item"><a href="contact-us.html">Contact Us</a></li>
+    </ul>
+
+</aside>
+<div class="andro_aside-overlay aside-trigger-left" id="front7"></div>
+
+<!-- Header Start -->
+<header class="andro_header header-1 can-sticky" id="front8">
+
+    <!-- Topheader Start -->
+    <div class="andro_header-top">
+        <div class="container">
+            <div class="andro_header-top-inner" style="height: 50px">
+            </div>
+        </div>
+
+    </div>
+    <!-- Topheader End -->
+
+    <!-- Middle Header Start -->
+    <div class="andro_header-middle">
+        <div class="container">
+            <nav class="navbar">
+                <!-- Logo -->
+                <a class="navbar-brand" href="index.html"> <img alt="logo" src="front/assets/img/logo.png"> </a>
+
+                <!-- Search Form -->
+                <div class="andro_search-adv">
+                    <form action="list" method="get">
+                        <div class="andro_search-adv-input">
+                            <input autocomplete="off" class="form-control" id="keyWord" name="keyWord"
+                                   placeholder="搜索你所期待的..." type="text" value="">
+                            <button name="button" type="submit"><i class="fa fa-search"></i></button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="andro_header-controls">
+
+                    <ul class="andro_header-controls-inner" th:if="${session.loginUser != null}">
+                        <li class="andro_header-favorites"><a href="collection" title="我的收藏"> <i
+                                class="flaticon-like"></i> </a></li>
+                        <li class="andro_header-cart">
+                            <a href="cart" title="我的购物车">
+                                <i class="flaticon-shopping-basket"></i>
+                                <div class="andro_header-cart-content">
+                                    <span th:text="${'¥' + session.cartRmb}"></span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <!-- Toggler -->
+                    <div class="aside-toggler aside-trigger-left">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                </div>
+            </nav>
+        </div>
+    </div>
+    <!-- Middle Header End -->
+
+    <!-- Bottom Header Start -->
+    <div class="andro_header-bottom">
+        <div class="container">
+
+            <div class="andro_header-bottom-inner">
+
+                <!-- Menu -->
+                <ul class="navbar-nav">
+                    <li class="menu-item"><a href="index.html"><i class="fa fa-shopping-cart"></i> 咖咖小铺</a></li>
+
+                    <li class="menu-item menu-item-has-children mega-menu-wrapper">
+                        <a href="javascript:void(0)"><i class="fa fa-info"></i> 关于我们</a>
+                        <ul class="sub-menu">
+                            <li>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="mega-menu-item">
+                                                <h6>【咖咖】为你提供高品质的咖啡</h6>
+                                                <p>
+                                                    我们热爱我们的咖啡。我们相信通过一杯高品质的手工咖啡可以传递和分享真挚情感，而这样简单的行为或许可以为顾客提供一些正能量。
+                                                    因此，【咖咖】始终致力于通过道德采购，烘焙并提供高品质的咖啡豆。
+                                                    从一粒种子到一杯咖啡，每一个环节都倾入了【咖咖】的心意和努力，
+                                                    只为每一次光顾我们门店的顾客可以享受醇香的浓缩咖啡及其钟爱的咖啡饮品。
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="offset-lg-1 col-lg-3">
+                                            <div class="mega-menu-item">
+                                                <h6>联系我们</h6>
+                                                <a href="#">啡快服务专线：021-66668888</a>
+                                                <a href="#">会员及门店服务：http://xuewei.world</a>
+                                                <a href="#">电子邮箱：isxuewei@qq.com</a>
+                                                <a href="#">地址：江西省宜春市袁州区学府路576号</a>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="mega-menu-item">
+                                                <h6>加入我们</h6>
+                                                <a href="register.html">用户注册</a>
+                                                <a href="login.html">用户登陆</a>
+                                                <a class="coming-soon" href="#">敬请期待</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="menu-item" th:if="${session.loginUser == null}"><a href="login.html"><i
+                            class="fa fa-space-shuttle"></i> 登陆</a></li>
+                    <li class="menu-item"><a href="list"><i class="fa fa-list"></i> 商品列表</a></li>
+
+                </ul>
+
+                <!-- Side navigation toggle -->
+                <div class="aside-toggler aside-trigger-right desktop-toggler" th:if="${session.loginUser != null}">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- Bottom Header End -->
+
+</header>
+<!-- Header End -->
+
+<!-- Instagram Start -->
+<div class="row no-gutters" id="instagram">
+    <div class="col-lg-4 secondary-bg pattern-bg">
+        <div class="andro_instagram">
+            <button class="andro_btn-custom light">感恩 <i class="fa fa-heart"></i> 相遇</button>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="row no-gutters">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-6 p-0">
+                <a class="andro_ig-item" href="https://space.bilibili.com/301320288">
+                    <img alt="ig" src="front/assets/img/ig/1.jpg">
+                </a>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-6 p-0">
+                <a class="andro_ig-item" href="https://space.bilibili.com/301320288">
+                    <img alt="ig" src="front/assets/img/ig/2.jpg">
+                </a>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-6 p-0">
+                <a class="andro_ig-item" href="https://space.bilibili.com/301320288">
+                    <img alt="ig" src="front/assets/img/ig/3.jpg">
+                </a>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-6 p-0">
+                <a class="andro_ig-item" href="https://space.bilibili.com/301320288">
+                    <img alt="ig" src="front/assets/img/ig/4.jpg">
+                </a>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-6 p-0">
+                <a class="andro_ig-item" href="https://space.bilibili.com/301320288">
+                    <img alt="ig" src="front/assets/img/ig/5.jpg">
+                </a>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-6 p-0">
+                <a class="andro_ig-item" href="https://space.bilibili.com/301320288">
+                    <img alt="ig" src="front/assets/img/ig/6.jpg">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Instagram End -->
+
+<!-- Footer Start -->
+<footer class="andro_footer" id="footer">
+    <!-- Footer Bottom -->
+    <div class="andro_footer-bottom">
+        <div class="container">
+            <hr>
+            <div class="andro_footer-copyright">
+                <p> Copyright © 2020 <a href="http://xuewei.world">薛伟同学</a> 版权所有 </p>
+                <a class="andro_back-to-top" href="#">返回顶部 <i class="fas fa-chevron-up"></i> </a>
+            </div>
+        </div>
+    </div>
+
+</footer>
+<!-- Footer End -->
+
+</body>

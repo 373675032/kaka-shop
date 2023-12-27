@@ -1,0 +1,211 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的订单</title>
+
+  <!-- Vendor Stylesheets -->
+  <link rel="stylesheet" href="front/assets/css/plugins/bootstrap.min.css">
+  <link rel="stylesheet" href="front/assets/css/plugins/animate.min.css">
+  <link rel="stylesheet" href="front/assets/css/plugins/magnific-popup.css">
+  <link rel="stylesheet" href="front/assets/css/plugins/slick.css">
+  <link rel="stylesheet" href="front/assets/css/plugins/slick-theme.css">
+  <link rel="stylesheet" href="front/assets/css/plugins/ion.rangeSlider.min.css">
+
+  <!-- Icon Fonts -->
+  <link rel="stylesheet" href="front/assets/fonts/flaticon/flaticon.css">
+  <link rel="stylesheet" href="front/assets/fonts/font-awesome/css/all.min.css">
+
+  <!-- Coffeez Style sheet -->
+  <link rel="stylesheet" href="front/assets/css/style.css">
+  <link rel="stylesheet" href="common/css/xtiper.css">
+  <link rel="stylesheet" href="common/css/sweetalert.css">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.ico">
+
+</head>
+
+<body>
+
+  <div th:replace="common/front-common::#front1"></div>
+  <div th:replace="common/front-common::#androNewsletterPopup"></div>
+  <div th:replace="common/front-common::#front4"></div>
+  <div th:replace="common/front-common::#front5"></div>
+  <div th:replace="common/front-common::#front6"></div>
+  <div th:replace="common/front-common::#front7"></div>
+  <div th:replace="common/front-common::#front8"></div>
+
+  <!-- Subheader Start -->
+  <div class="andro_subheader pattern-bg primary-bg">
+    <div class="container">
+      <div class="andro_subheader-inner">
+        <h1 th:if="${status == -1}">已取消</h1>
+        <h1 th:if="${status == 0}">未发货</h1>
+        <h1 th:if="${status == 1}">已发货</h1>
+        <h1 th:if="${status == 2}">已完成</h1>
+
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li th:if="${status != -1}" class="breadcrumb-item"><a href="my-order?status=-1">已取消</a></li>
+            <li th:if="${status != 0}" class="breadcrumb-item"><a href="my-order?status=0">未发货</a></li>
+            <li th:if="${status != 1}" class="breadcrumb-item"><a href="my-order?status=1">已发货</a></li>
+            <li th:if="${status != 2}" class="breadcrumb-item"><a href="my-order?status=2">已完成</a></li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <!-- Subheader End -->
+
+  <!-- Wishlist Start -->
+  <div class="section">
+    <div class="container">
+
+      <table class="andro_responsive-table" th:if="${status == -1}" style="font-size: 12px">
+        <thead>
+        <tr>
+          <th style="text-align: center">订单号</th>
+          <th style="text-align: center">内容</th>
+          <th style="text-align: center">收货信息</th>
+          <th style="text-align: center">创建时间</th>
+          <th style="text-align: center">付款时间</th>
+          <th style="text-align: center">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr th:each="order:${orders}">
+            <td style="text-align: center" th:text="${order.orderNumber}"></td>
+            <td style="text-align: center" th:text="${order.content}"></td>
+            <td style="text-align: center" th:text="${order.address.name + ' - ' + order.address.address + ' - ' + order.address.phone}"></td>
+            <td style="text-align: center" th:text="${#dates.format(order.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td style="text-align: center" th:text="${#dates.format(order.payTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td style="text-align: center">
+              <a href="javaScript:void (0)" th:onclick="deleteOrder([[${order.id}]])" class="andro_btn-custom btn-sm shadow-none">删除</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table class="andro_responsive-table" th:if="${status == 0}" style="font-size: 12px">
+        <thead>
+        <tr>
+          <th style="text-align: center">订单号</th>
+          <th style="text-align: center">内容</th>
+          <th style="text-align: center">收货信息</th>
+          <th style="text-align: center">创建时间</th>
+          <th style="text-align: center">付款时间</th>
+          <th style="text-align: center">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order:${orders}">
+          <td style="text-align: center" th:text="${order.orderNumber}"></td>
+          <td style="text-align: center" th:text="${order.content}"></td>
+          <td style="text-align: center" th:text="${order.address.name + ' - ' + order.address.address + ' - ' + order.address.phone}"></td>
+          <td style="text-align: center" th:text="${#dates.format(order.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+          <td style="text-align: center" th:text="${#dates.format(order.payTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+          <td style="text-align: center">
+            <a href="javascript:void (0)" th:onclick="cancelOrder([[${order.id}]])" class="andro_btn-custom btn-sm shadow-none">取消订单</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <table class="andro_responsive-table" th:if="${status == 1}" style="font-size: 12px">
+        <thead>
+        <tr>
+          <th style="text-align: center">订单号</th>
+          <th style="text-align: center">内容</th>
+          <th style="text-align: center">收货信息</th>
+          <th style="text-align: center">快递公司</th>
+          <th style="text-align: center">快递单号</th>
+          <th style="text-align: center">创建时间</th>
+          <th style="text-align: center">发货时间</th>
+          <th style="text-align: center">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order:${orders}">
+          <td style="text-align: center" th:text="${order.orderNumber}"></td>
+          <td style="text-align: center" th:text="${order.content}"></td>
+          <td style="text-align: center" th:text="${order.address.name + ' - ' + order.address.address + ' - ' + order.address.phone}"></td>
+          <td style="text-align: center" th:text="${order.courierName}"></td>
+          <td style="text-align: center" th:text="${order.courierNumber}"></td>
+          <td style="text-align: center" th:text="${#dates.format(order.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+          <td style="text-align: center" th:text="${#dates.format(order.sippingTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+          <td style="text-align: center">
+            <a href="javascript:void (0)" th:onclick="confirmOrder([[${order.id}]])" class="andro_btn-custom btn-sm shadow-none">确认收货</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <table class="andro_responsive-table" th:if="${status == 2}" style="font-size: 12px">
+        <thead>
+        <tr>
+          <th style="text-align: center">订单号</th>
+          <th style="text-align: center">内容</th>
+          <th style="text-align: center">收货信息</th>
+          <th style="text-align: center">快递公司</th>
+          <th style="text-align: center">快递单号</th>
+          <th style="text-align: center">创建时间</th>
+          <th style="text-align: center">成交时间</th>
+          <th style="text-align: center">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order:${orders}">
+          <td style="text-align: center" th:text="${order.orderNumber}"></td>
+          <td style="text-align: center" th:text="${order.content}"></td>
+          <td style="text-align: center" th:text="${order.address.name + ' - ' + order.address.address + ' - ' + order.address.phone}"></td>
+          <td style="text-align: center" th:text="${order.courierName}"></td>
+          <td style="text-align: center" th:text="${order.courierNumber}"></td>
+          <td style="text-align: center" th:text="${#dates.format(order.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+          <td style="text-align: center" th:text="${#dates.format(order.successTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+          <td style="text-align: center">
+            <a th:href="@{product(id=${order.commodity.id},orderNumber=${order.orderNumber})}" class="andro_btn-custom btn-sm shadow-none">去评价</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+  <!--  Wishlist End -->
+
+  <!-- Instagram Start -->
+  <div th:replace="common/front-common::#instagram"></div>
+  <!-- Instagram End -->
+
+  <!-- Footer Start -->
+  <div th:replace="common/front-common::#footer"></div>
+  <!-- Footer End -->
+
+  <!-- Vendor Scripts -->
+  <script src="front/assets/js/plugins/jquery-3.4.1.min.js"></script>
+  <script src="front/assets/js/plugins/popper.min.js"></script>
+  <script src="front/assets/js/plugins/waypoint.js"></script>
+  <script src="front/assets/js/plugins/bootstrap.min.js"></script>
+  <script src="front/assets/js/plugins/jquery.magnific-popup.min.js"></script>
+  <script src="front/assets/js/plugins/jquery.slimScroll.min.js"></script>
+  <script src="front/assets/js/plugins/imagesloaded.min.js"></script>
+  <script src="front/assets/js/plugins/jquery.steps.min.js"></script>
+  <script src="front/assets/js/plugins/jquery.countdown.min.js"></script>
+  <script src="front/assets/js/plugins/isotope.pkgd.min.js"></script>
+  <script src="front/assets/js/plugins/slick.min.js"></script>
+  <script src="front/assets/js/plugins/ion.rangeSlider.min.js"></script>
+  <script src="front/assets/js/plugins/jquery.zoom.min.js"></script>
+
+
+  <!-- Coffeez Scripts -->
+  <script src="front/assets/js/main.js"></script>
+  <script src="common/js/xtiper.min.js"></script>
+  <script src="common/js/sweetalert.js"></script>
+  <script src="common/js/custom.js"></script>
+
+</body>
+
+</html>

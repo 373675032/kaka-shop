@@ -1,0 +1,66 @@
+server:
+  servlet:
+    context-path: /kaka-shop
+spring:
+  mvc:
+    static-path-pattern: /**
+  resources:
+    static-locations: classpath:/static/
+  thymeleaf:
+    cache: false
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://127.0.0.1:3306/kaka-shop?serverTimezone=Hongkong&useAffectedRows=true&characterEncoding=utf-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    filters: stat,wall,log4j
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+  # 邮件配置
+  mail:
+    username: 373675032@qq.com
+    password: xxxxxxxxxxxxx
+    host: smtp.qq.com
+    port: 465
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          socketFactory:
+            port: 465
+            class: javax.net.ssl.SSLSocketFactory
+            fallback: false
+  servlet:
+    multipart:
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
+
+# 阿里云对象存储配置
+oss:
+  bucket-name: xxxxxxxxxxxxx
+  end-point: xxxxxxxxxxxxx
+  access-key: xxxxxxxxxxxxx
+  access-secret: xxxxxxxxxxxxx
+
+# 注册用户默认头像
+default-avatar: https://xuewei-blog.oss-cn-beijing.aliyuncs.com/202312272104642.png

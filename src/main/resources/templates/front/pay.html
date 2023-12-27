@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>待支付</title>
+
+    <!-- Vendor Stylesheets -->
+    <link href="front/assets/css/plugins/bootstrap.min.css" rel="stylesheet">
+    <link href="front/assets/css/plugins/animate.min.css" rel="stylesheet">
+    <link href="front/assets/css/plugins/magnific-popup.css" rel="stylesheet">
+    <link href="front/assets/css/plugins/slick.css" rel="stylesheet">
+    <link href="front/assets/css/plugins/slick-theme.css" rel="stylesheet">
+    <link href="front/assets/css/plugins/ion.rangeSlider.min.css" rel="stylesheet">
+
+    <!-- Icon Fonts -->
+    <link href="front/assets/fonts/flaticon/flaticon.css" rel="stylesheet">
+    <link href="front/assets/fonts/font-awesome/css/all.min.css" rel="stylesheet">
+
+    <!-- Coffeez Style sheet -->
+    <link href="front/assets/css/style.css" rel="stylesheet">
+    <link href="common/css/xtiper.css" rel="stylesheet">
+    <link href="common/css/sweetalert.css" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link href="favicon.ico" rel="icon" sizes="32x32" type="image/png">
+
+</head>
+
+<body>
+
+<div th:replace="common/front-common::#front1"></div>
+<div th:replace="common/front-common::#androNewsletterPopup"></div>
+<div th:replace="common/front-common::#front4"></div>
+<div th:replace="common/front-common::#front5"></div>
+<div th:replace="common/front-common::#front6"></div>
+<div th:replace="common/front-common::#front7"></div>
+<div th:replace="common/front-common::#front8"></div>
+
+<!-- Subheader Start -->
+<div class="andro_subheader pattern-bg primary-bg">
+    <div class="container">
+        <div class="andro_subheader-inner">
+            <h1 th:if="${cart.count <= cart.commodity.inventory}">待支付</h1>
+            <h1 th:if="${cart.count > cart.commodity.inventory}">库存不足【剩余：[[${cart.commodity.inventory}]]】</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">主页</a></li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Subheader End -->
+
+<div class="section">
+    <div class="imgs-wrapper">
+        <img alt="veg" class="d-none d-lg-block" src="front/assets/img/products/1.png">
+        <img alt="veg" class="d-none d-lg-block" src="front/assets/img/products/14.png">
+    </div>
+    <div class="container">
+        <!-- Cart Table Start -->
+        <table class="andro_responsive-table">
+            <thead>
+            <tr>
+                <th>商品信息</th>
+                <th>商品单价</th>
+                <th>购买数量</th>
+                <th>商品状态</th>
+                <th>商品剩余</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td data-title="Product">
+                    <div class="andro_cart-product-wrapper">
+                        <img alt="prod1" th:src="${cart.commodity.img}">
+                        <div class="andro_cart-product-body">
+                            <h6><a th:href="@{product(id=${cart.commodityId})}" th:text="${cart.commodity.name}"></a>
+                            </h6>
+                            <p th:text="${cart.commodity.info}"></p>
+                        </div>
+                    </div>
+                </td>
+                <td data-title="Price"><strong th:text="${'¥ '+cart.commodity.nowPrice}"></strong></td>
+                <td class="quantity" data-title="Quantity">
+                    <strong th:text="${cart.count +'（件）'}"></strong>
+
+                </td>
+                <td class="andro_product-stock instock" data-title="Total">
+                    <span class="andro_product-stock instock" th:if="${cart.commodity.status == 1}">上架</span>
+                    <span class="andro_product-stock outofstock"
+                          th:if="${cart.commodity.status == 0}">该商品已下架</span>
+                </td>
+                <td class="text-success" data-title="Total" th:if="${cart.count <= cart.commodity.inventory}">
+                    <strong th:text="${cart.commodity.inventory +'（件）'}"></strong>
+                </td>
+                <td class="text-danger" data-title="Total" th:if="${cart.count > cart.commodity.inventory}">
+                    <strong th:text="${cart.commodity.inventory +'（件）'}"></strong>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="form-group">
+            <select class="form-control" id="addressId">
+                <option th:each="address:${addresses}" th:if="${address.isDefault == 1}"
+                        th:text="${address.name + ' - ' + address.address + ' - ' + address.phone}"
+                        th:value="${address.id}"></option>
+                <option th:each="address:${addresses}" th:if="${address.isDefault == 0}"
+                        th:text="${address.name + ' - ' + address.address + ' - ' + address.phone}"
+                        th:value="${address.id}"></option>
+            </select>
+        </div>
+        <!-- Cart Table End -->
+        <h6 th:text="${'待支付：' + cart.count * cart.commodity.nowPrice + '元，已优惠：' + ((cart.count * cart.commodity.originalPrice) - (cart.count * cart.commodity.nowPrice)) + '元'}"></h6>
+        <br>
+        <div th:if="${addresses.size() > 0}">
+            <a class="andro_btn-custom btn-sm shadow-none" href="javascript:void(0)"
+               th:if="${cart.count <= cart.commodity.inventory}" th:onclick="buyCommodity([[${cart.id}]])">立即购买</a>
+            <a class="andro_btn-custom btn-sm shadow-none" style="background: red;color: white"
+               th:if="${cart.count > cart.commodity.inventory}">库存不足，无法支付！</a>
+        </div>
+
+        <div th:if="${addresses.size() == 0}">
+            <a class="andro_btn-custom btn-sm shadow-none" style="background: red;color: white">请添加收货地址！</a>
+        </div>
+
+    </div>
+</div>
+
+<!-- Instagram Start -->
+<div th:replace="common/front-common::#instagram"></div>
+<!-- Instagram End -->
+
+<!-- Footer Start -->
+<div th:replace="common/front-common::#footer"></div>
+<!-- Footer End -->
+
+<!-- Vendor Scripts -->
+<script src="front/assets/js/plugins/jquery-3.4.1.min.js"></script>
+<script src="front/assets/js/plugins/popper.min.js"></script>
+<script src="front/assets/js/plugins/waypoint.js"></script>
+<script src="front/assets/js/plugins/bootstrap.min.js"></script>
+<script src="front/assets/js/plugins/jquery.magnific-popup.min.js"></script>
+<script src="front/assets/js/plugins/jquery.slimScroll.min.js"></script>
+<script src="front/assets/js/plugins/imagesloaded.min.js"></script>
+<script src="front/assets/js/plugins/jquery.steps.min.js"></script>
+<script src="front/assets/js/plugins/jquery.countdown.min.js"></script>
+<script src="front/assets/js/plugins/isotope.pkgd.min.js"></script>
+<script src="front/assets/js/plugins/slick.min.js"></script>
+<script src="front/assets/js/plugins/ion.rangeSlider.min.js"></script>
+<script src="front/assets/js/plugins/jquery.zoom.min.js"></script>
+
+
+<!-- Coffeez Scripts -->
+<script src="front/assets/js/main.js"></script>
+<script src="common/js/xtiper.min.js"></script>
+<script src="common/js/sweetalert.js"></script>
+<script src="common/js/custom.js"></script>
+
+</body>
+
+</html>
